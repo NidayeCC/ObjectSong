@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apocaland", "Apocaland\Apocaland.csproj", "{600F263D-3781-4F84-BCEB-686714A93F71}"
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectSongEngineMG", "ObjectSongEngineMG\ObjectSongEngineMG.csproj", "{FBA9F287-0698-41B2-95F1-ABB2C43844AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectSongEngine", "ObjectSongEngine\ObjectSongEngine.csproj", "{F8C1F7FD-FD3D-4AF3-8817-DC750230FB67}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApocalandMG", "ApocalandMG\ApocalandMG.csproj", "{D28B5860-EC55-49EA-82F0-BF55934503F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +11,14 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{600F263D-3781-4F84-BCEB-686714A93F71}.Debug|x86.ActiveCfg = Debug|x86
-		{600F263D-3781-4F84-BCEB-686714A93F71}.Debug|x86.Build.0 = Debug|x86
-		{600F263D-3781-4F84-BCEB-686714A93F71}.Release|x86.ActiveCfg = Release|x86
-		{600F263D-3781-4F84-BCEB-686714A93F71}.Release|x86.Build.0 = Release|x86
-		{F8C1F7FD-FD3D-4AF3-8817-DC750230FB67}.Debug|x86.ActiveCfg = Debug|x86
-		{F8C1F7FD-FD3D-4AF3-8817-DC750230FB67}.Debug|x86.Build.0 = Debug|x86
-		{F8C1F7FD-FD3D-4AF3-8817-DC750230FB67}.Release|x86.ActiveCfg = Release|x86
-		{F8C1F7FD-FD3D-4AF3-8817-DC750230FB67}.Release|x86.Build.0 = Release|x86
+		{FBA9F287-0698-41B2-95F1-ABB2C43844AD}.Debug|x86.ActiveCfg = Debug|x86
+		{FBA9F287-0698-41B2-95F1-ABB2C43844AD}.Debug|x86.Build.0 = Debug|x86
+		{FBA9F287-0698-41B2-95F1-ABB2C43844AD}.Release|x86.ActiveCfg = Release|x86
+		{FBA9F287-0698-41B2-95F1-ABB2C43844AD}.Release|x86.Build.0 = Release|x86
+		{D28B5860-EC55-49EA-82F0-BF55934503F4}.Debug|x86.ActiveCfg = Debug|x86
+		{D28B5860-EC55-49EA-82F0-BF55934503F4}.Debug|x86.Build.0 = Debug|x86
+		{D28B5860-EC55-49EA-82F0-BF55934503F4}.Release|x86.ActiveCfg = Release|x86
+		{D28B5860-EC55-49EA-82F0-BF55934503F4}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
