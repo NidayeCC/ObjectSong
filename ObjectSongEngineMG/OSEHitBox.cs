@@ -41,8 +41,8 @@ namespace ObjectSongEngineMG
 
         public OSEHitBox(Game game, OSELocation2D offset, OSESize2D size)
         {
-            _offset = offset;
-            _size = size;
+            _offset = new OSELocation2D(offset);
+            _size = new OSESize2D(size.Width, size.Height);
 
             _pixeltex = new Texture2D(game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             _pixeltex.SetData(new[] { Color.White });

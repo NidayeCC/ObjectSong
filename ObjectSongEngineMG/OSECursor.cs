@@ -8,7 +8,7 @@ namespace ObjectSongEngineMG
         public OSECursor(Game game, OSESize2D size, OSELocation2D location)
             : base(game, size, location)
         {
-            
+ 
         }
     }
 }

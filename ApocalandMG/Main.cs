@@ -1,11 +1,12 @@
 using System;
 using System.Linq;
+using ApocalandMG.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ObjectSongEngineMG;
 
-namespace ApocaLand
+namespace ApocalandMG
 {
     /// <summary>
     /// This is the main type for your game
@@ -13,6 +14,8 @@ namespace ApocaLand
     public class Main : Game
     {
         SpriteBatch _spriteBatch;
+
+        [UsedImplicitly] internal GraphicsDeviceManager Graphics;
 
         OSECursor _defaultcursor;
         private OSEMenu _mapbuildmenu;
@@ -22,24 +25,11 @@ namespace ApocaLand
 
         public Main() 
         {
-            new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
 
             Content.RootDirectory = "Content";
 
             _mode = 1;
-        }
-
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
-        protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
-
-            base.Initialize();
         }
 
         /// <summary>
@@ -59,17 +49,16 @@ namespace ApocaLand
             _defaultcursor.LoadTexture(Content, "OSEContent/CrossHair32x32");
             _defaultcursor.DrawHitBox = true;
 
+            // Offset the hitbox to the middle of the cursor rectangle and make it very small
+            _defaultcursor.Hitbox.Size.Height = 2;
+            _defaultcursor.Hitbox.Size.Width = 2;
+            _defaultcursor.Hitbox.Offset = new OSELocation2D(15,15);
+
+            //Build a menu for the Play and Exit functions
             _mapbuildmenu = new OSEMenu(this, _menufont);
-            _mapbuildmenu.AddItem("File", "test1", 0);
+            _mapbuildmenu.Location = new OSELocation2D(10,10);
+            _mapbuildmenu.AddItem("Play", "Play", 0);
             _mapbuildmenu.AddItem("Exit", "Exit", 1);
-
-            //_map = new OrthoMap2D(2, 2);
-
-            //_blacktile = new Tile(graphics.GraphicsDevice, 128, 64);
-            //_blacktile.LoadTexture(Content, "TileBlack");
-
-            //_sandtile = new Tile(graphics.GraphicsDevice, 128, 64);
-            //_sandtile.LoadTexture(Content, "TileSand");
 
         }
 
@@ -97,17 +86,15 @@ namespace ApocaLand
 
             MouseState mousestate = Mouse.GetState();
 
-            if (state.Contains(Keys.M) && state.Contains(Keys.RightControl))
+            if (state.Contains(Keys.Escape))
                 _mode = 1;
 
-            if (state.Contains(Keys.P) && state.Contains(Keys.RightControl))
-                _mode = 0;
-
-
+    
             if (_mode == 0)
             {
                 UpdateRunTime();
             }
+
 
             if (_mode == 1)
             {
@@ -136,9 +123,12 @@ namespace ApocaLand
             {
                 if (_mapbuildmenu.SelectedItem.Action == "Exit")
                 {
-                    this.Exit();
+                    Exit();
                 }
-
+                if (_mapbuildmenu.SelectedItem.Action == "Play")
+                {
+                    _mode = 0;
+                }
 
             }
         }
@@ -156,12 +146,7 @@ namespace ApocaLand
             // Draw the Run Time
             if (_mode == 0)
             {
-                //spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
-                //_blacktile.Draw(spriteBatch, new OSELocation2D(0,0));
-                //_blacktile.Draw(spriteBatch, new OSELocation2D(128, 0));
-                //_sandtile.Draw(spriteBatch, new OSELocation2D(64, 32));
-                //_sandtile.Draw(spriteBatch, new OSELocation2D(192, 32));
-                //spriteBatch.End();
+
             }
 
 
@@ -169,10 +154,7 @@ namespace ApocaLand
             if (_mode == 1)
             {
                 _spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
-                //_blacktile.Draw(spriteBatch, new OSELocation2D(0, 0));
-                //_sandtile.Draw(spriteBatch, new OSELocation2D(0, 64));
                 
-
                 // Draw the menu
                 _mapbuildmenu.Draw(_spriteBatch);
 

@@ -56,6 +56,13 @@ namespace ObjectSongEngineMG
         }
 
 
+        public OSESize2D(OSESize2D size)
+        {
+            _width = size.Width;
+            _height = size.Height;
+        }
+
+
         public void Update(Int32 itemWidth, Int32 itemHeight)
         {
             _width = itemWidth;

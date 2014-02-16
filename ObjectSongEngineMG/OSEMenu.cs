@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,16 +10,11 @@ namespace ObjectSongEngineMG
     /// </summary>
     public class OSEMenu
     {
-        //private Int32 _selectedindex;
-        
         private readonly Color _normalText;
         private readonly Color _highlightText;
 
-        //private KeyboardState _oldkeyboardstate;
-        //private KeyboardState _newkeyboardstate;
-
         private readonly SpriteFont _spriteFont;
-        private readonly OSELocation2D _location2D;
+        private OSELocation2D _location2D;
         private readonly OSESize2D _margin;
         private readonly OSEMenuOrientation _orientation;
         private readonly List<OSEMenuItem> _items;
@@ -37,6 +31,18 @@ namespace ObjectSongEngineMG
             }
         }
 
+
+        public OSELocation2D Location
+        {
+            get
+            {
+                return _location2D;
+            }
+            set
+            {
+                _location2D = value;
+            }
+        }
 
 
         public OSEMenu(Game game, SpriteFont menuFont) 
@@ -56,8 +62,6 @@ namespace ObjectSongEngineMG
 
         public void AddItem(String text, String action, Int32 index)
         {
-            var size = _spriteFont.MeasureString(text);
-
             var item = new OSEMenuItem(_xnagame, text, action, index, _spriteFont)
             {
                 NormalColor = _normalText,

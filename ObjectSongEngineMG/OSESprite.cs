@@ -55,9 +55,9 @@ namespace ObjectSongEngineMG
 
         public OSESprite(Game game, OSESize2D size, OSELocation2D location)
         {
-            _size = size;
+            _size = new OSESize2D(size);
             XNAGame = game;
-            _location = location;
+            _location = new OSELocation2D(location);
 
             Hitbox = new OSEHitBox(game, new OSELocation2D(0,0), _size);
             DrawHitBox = false;
