@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace ObjectSongEngine
+namespace ObjectSongEngineMG
 {
     /// <summary>
     /// Represents a size in 2D space as two 32-bit Integers, Width and Height

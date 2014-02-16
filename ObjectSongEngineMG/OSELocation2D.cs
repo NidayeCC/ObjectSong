@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace ObjectSongEngine
+namespace ObjectSongEngineMG
 {
     /// <summary>
     /// Represents a location in 2D space as two 32-bit Integers, X and Y

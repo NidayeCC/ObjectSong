@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 
-namespace ObjectSongEngine
+namespace ObjectSongEngineMG
 {
     public class OSEMenuItem : OSESprite
     {
@@ -97,10 +97,10 @@ namespace ObjectSongEngine
                 Action = itemAction;
                 Order = itemOrder;
                 _selected = false;
-                _normalcolor = new Color(255, 255, 255, 255);
 
                 var size = font.MeasureString(itemText);
                 Size = new OSESize2D(size);
+                Hitbox.Size = Size;
             }
             else
             {

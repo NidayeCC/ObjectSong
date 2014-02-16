@@ -1,4 +1,4 @@
-﻿namespace ObjectSongEngine
+﻿namespace ObjectSongEngineMG
 {
     /// <summary>
     /// Enumeration of the possible orientations of an OSEMenu

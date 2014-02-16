@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace ObjectSongEngine
+namespace ObjectSongEngineMG
 {
     public class OSECursor : OSESprite
     {

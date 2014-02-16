@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ObjectSongEngine
+namespace ObjectSongEngineMG
 {
     public class OSESprite
     {
@@ -10,13 +10,8 @@ namespace ObjectSongEngine
         private OSELocation2D _location;
 
         protected Texture2D Texture;
-       
-        
+              
         protected Game XNAGame;
-
-        private OSELocation2D _hitboxlocation;
-        private OSESize2D _hitboxsize;
-
 
         public OSEHitBox Hitbox
         {
@@ -85,9 +80,13 @@ namespace ObjectSongEngine
         }
 
 
-        public bool CheckForHit(OSESprite targetSprite)
+        public bool CheckForHit(OSESprite target)
         {
-            return Hitbox.CheckForHit(targetSprite.Hitbox, Location);
+            var hitrect = new Rectangle(_location.X + Hitbox.Offset.X, _location.Y + Hitbox.Offset.Y, Hitbox.Size.Width, Hitbox.Size.Height);
+            var targetrect = new Rectangle(target.Location.X + target.Hitbox.Offset.X, target.Location.Y + target.Hitbox.Offset.Y, target.Hitbox.Size.Width, target.Hitbox.Size.Height);
+            return targetrect.Intersects(hitrect);
         }
+
+
     }
 }

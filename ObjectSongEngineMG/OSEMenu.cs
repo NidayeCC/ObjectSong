@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ObjectSongEngine
+namespace ObjectSongEngineMG
 {
     /// <summary>
     /// Represents a single level drawable menu component
@@ -60,7 +60,6 @@ namespace ObjectSongEngine
 
             var item = new OSEMenuItem(_xnagame, text, action, index, _spriteFont)
             {
-                Size = new OSESize2D(size),
                 NormalColor = _normalText,
                 HighlightColor = _highlightText,
                 DrawHitBox = true
