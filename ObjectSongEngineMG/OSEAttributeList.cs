@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ObjectSongEngineMG
 {
     public class OSEAttributeList
     {
-        private List<OSEAttribute> _items;
+        private readonly List<OSEAttribute> _items;
+
+     
+
 
         public List<OSEAttribute> Items
         {
@@ -18,11 +19,18 @@ namespace ObjectSongEngineMG
         }
 
 
-        public void Add(string Key, string Value)
+        public OSEAttributeList()
         {
-            OSEAttribute item = new OSEAttribute();
-            item.Key = Key;
-            item.Value = Value;
+            _items = new List<OSEAttribute>();
+        }
+
+
+
+        public void Add(string key, string value)
+        {
+            var item = new OSEAttribute
+            {Key = key, Value = value};
+
             _items.Add(item);
         }
 
@@ -31,7 +39,7 @@ namespace ObjectSongEngineMG
         {
             if(_items.Exists(x => x.ID == itemID))
             {
-                 _items.Remove(new OSEAttribute(){ID = itemID});
+                 _items.Remove(new OSEAttribute {ID = itemID});
             }
         }
 
@@ -40,7 +48,7 @@ namespace ObjectSongEngineMG
         {
             if(_items.Exists(x => x.ID == itemID))
             {
-                OSEAttribute item = null;
+                OSEAttribute item;
                 if((item = _items.Find(x => x.ID == itemID)) != null)
                 {
                     item.Value = newValue;
@@ -51,7 +59,7 @@ namespace ObjectSongEngineMG
 
         public OSEAttribute Find(string itemKey)
         {
-            OSEAttribute item = null;
+            OSEAttribute item;
             if((item = _items.Find(x => x.Key == itemKey)) != null)
             {
                 return item;
@@ -62,6 +70,7 @@ namespace ObjectSongEngineMG
 
         public OSEAttribute Find(Guid itemID)
         {
+// ReSharper disable RedundantAssignment
             OSEAttribute item = null;
             if((item = _items.Find(x => x.ID == itemID)) != null)
             {

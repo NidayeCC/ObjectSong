@@ -8,8 +8,8 @@ namespace ObjectSongEngineMG
 
         private OSESize2D _size;
         private OSELocation2D _offset;
-        private readonly Texture2D _pixeltex;
-        private readonly Color _pixelcolor;
+        private Texture2D _pixeltex;
+        private Color _pixelcolor;
         
 
 
@@ -39,17 +39,19 @@ namespace ObjectSongEngineMG
         }
 
 
-        public OSEHitBox(Game game, OSELocation2D offset, OSESize2D size)
+        public OSEHitBox(OSELocation2D offset, OSESize2D size)
         {
             _offset = new OSELocation2D(offset);
             _size = new OSESize2D(size.Width, size.Height);
-
-            _pixeltex = new Texture2D(game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            _pixeltex.SetData(new[] { Color.White });
-
-            _pixelcolor = new Color(255,255,255,255);
         }
 
+
+        public void Initialize(GraphicsDevice device)
+        {
+            _pixeltex = new Texture2D(device, 1, 1, false, SurfaceFormat.Color);
+            _pixeltex.SetData(new[] { Color.White });
+            _pixelcolor = new Color(255, 255, 255, 255);
+        }
 
         public virtual void Draw(SpriteBatch spriteBatch, OSELocation2D location)
         {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace ObjectSongEngineMG
+﻿namespace ObjectSongEngineMG
 {
     public class OSEPlayer : OSESprite
     {
@@ -23,5 +17,9 @@ namespace ObjectSongEngineMG
             }
         }
 
+        public OSEPlayer(OSESize2D size, OSELocation2D location) :base(size, location)
+        {
+            _attributes = new OSEAttributeList();
+        }
     }
 }
