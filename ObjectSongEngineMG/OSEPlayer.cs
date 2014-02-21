@@ -17,6 +17,7 @@
             }
         }
 
+
         public OSEPlayer(OSESize2D size, OSELocation2D location) :base(size, location)
         {
             _attributes = new OSEAttributeList();

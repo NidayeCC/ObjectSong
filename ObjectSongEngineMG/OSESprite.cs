@@ -71,7 +71,7 @@ namespace ObjectSongEngineMG
         }
 
 
-        public void EnableHitBox(GraphicsDevice device)
+        public virtual void EnableHitBox(GraphicsDevice device)
         {
             _drawhitbox = true;
             Hitbox.Initialize(device);

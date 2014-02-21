@@ -21,6 +21,8 @@ namespace ApocalandMG
         private OSEMenu _mapbuildmenu;
         SpriteFont _menufont;
 
+        private OSEPlayer _humanplayer;
+
         Int32 _mode;
 
         public Main() 
@@ -60,6 +62,10 @@ namespace ApocalandMG
             _mapbuildmenu.AddItem("Play", "Play", 0);
             _mapbuildmenu.AddItem("Exit", "Exit", 1);
             _mapbuildmenu.EnableHitBox(GraphicsDevice);
+
+            //Build the human player
+            _humanplayer = new OSEPlayer(new OSESize2D(64, 128), new OSELocation2D(0,0));
+            _humanplayer.LoadTexture(GraphicsDevice, Content, "uglyman");
 
         }
 
@@ -109,7 +115,7 @@ namespace ApocalandMG
 
         public void UpdateRunTime()
         {
-
+            _humanplayer.Location.Update(Mouse.GetState());
         }
 
 
@@ -147,7 +153,11 @@ namespace ApocalandMG
             // Draw the Run Time
             if (_mode == 0)
             {
+                _spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
 
+                _humanplayer.Draw(_spriteBatch);
+
+                _spriteBatch.End();
             }
 
 
