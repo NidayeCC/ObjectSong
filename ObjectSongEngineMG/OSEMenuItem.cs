@@ -87,8 +87,8 @@ namespace ObjectSongEngineMG
         }
 
 
-        public OSEMenuItem(Game game, String itemText, String itemAction, Int32 itemOrder, SpriteFont font)
-            : base(game, new OSESize2D(1,1), new OSELocation2D(0,0))
+        public OSEMenuItem(String itemText, String itemAction, Int32 itemOrder, SpriteFont font)
+            : base(new OSESize2D(1,1), new OSELocation2D(0,0))
         {
             if (!String.IsNullOrEmpty(itemText))
             {

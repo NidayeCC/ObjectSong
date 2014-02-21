@@ -18,7 +18,6 @@ namespace ObjectSongEngineMG
         private readonly OSESize2D _margin;
         private readonly OSEMenuOrientation _orientation;
         private readonly List<OSEMenuItem> _items;
-        private readonly Game _xnagame;
 
         private OSEMenuItem _selecteditem;
 
@@ -45,7 +44,7 @@ namespace ObjectSongEngineMG
         }
 
 
-        public OSEMenu(Game game, SpriteFont menuFont) 
+        public OSEMenu(SpriteFont menuFont) 
         {
             _items = new List<OSEMenuItem>();
             _spriteFont = menuFont;
@@ -54,21 +53,26 @@ namespace ObjectSongEngineMG
             _normalText = new Color(255, 255, 255, 255);
             _highlightText = new Color(255, 0, 0, 255);
             _orientation = OSEMenuOrientation.Vertical;
-            _xnagame = game;
             _selecteditem = null;
         }
 
 
+        public void EnableHitBox(GraphicsDevice device)
+        {
+            foreach (OSEMenuItem item in _items)
+            {
+                item.EnableHitBox(device);
+            }
+        }
+
 
         public void AddItem(String text, String action, Int32 index)
         {
-            var item = new OSEMenuItem(_xnagame, text, action, index, _spriteFont)
+            var item = new OSEMenuItem(text, action, index, _spriteFont)
             {
                 NormalColor = _normalText,
-                HighlightColor = _highlightText,
-                DrawHitBox = true
+                HighlightColor = _highlightText     
             };    
-           
             _items.Add(item);
 
         }

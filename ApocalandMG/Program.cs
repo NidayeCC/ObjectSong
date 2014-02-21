@@ -1,10 +1,10 @@
 ﻿#region Using Statements
+
 using System;
-using ApocalandMG;
 
 #endregion
 
-namespace Apocaland
+namespace ApocalandMG
 {
 #if WINDOWS || LINUX
     /// <summary>

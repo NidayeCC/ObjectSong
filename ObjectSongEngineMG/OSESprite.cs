@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -8,10 +9,11 @@ namespace ObjectSongEngineMG
     {
         private OSESize2D _size;
         private OSELocation2D _location;
+        private Boolean _drawhitbox;
 
         protected Texture2D Texture;
               
-        protected Game XNAGame;
+        //protected Game XNAGame;
 
         public OSEHitBox Hitbox
         {
@@ -22,8 +24,10 @@ namespace ObjectSongEngineMG
 
         public bool DrawHitBox
         {
-            get; 
-            set;
+            get
+            {
+                return _drawhitbox;
+            }
         }
 
         public OSESize2D Size
@@ -35,8 +39,6 @@ namespace ObjectSongEngineMG
             set
             {
                 _size = value;
-               
-                Texture = new Texture2D(XNAGame.GraphicsDevice, Size.Width, Size.Height);
             }
         }
 
@@ -53,23 +55,29 @@ namespace ObjectSongEngineMG
         }
 
 
-        public OSESprite(Game game, OSESize2D size, OSELocation2D location)
+        public OSESprite(OSESize2D size, OSELocation2D location)
         {
             _size = new OSESize2D(size);
-            XNAGame = game;
             _location = new OSELocation2D(location);
-
-            Hitbox = new OSEHitBox(game, new OSELocation2D(0,0), _size);
-            DrawHitBox = false;
+            Hitbox = new OSEHitBox(new OSELocation2D(0,0), _size);         
+            _drawhitbox = false;
         }
 
 
-        public void LoadTexture(ContentManager contentMgr, string filename)
+        public void LoadTexture(GraphicsDevice device, ContentManager contentMgr, string filename)
         {
+            Texture = new Texture2D(device, Size.Width, Size.Height);
             Texture = contentMgr.Load<Texture2D>(filename);
         }
 
-  
+
+        public void EnableHitBox(GraphicsDevice device)
+        {
+            _drawhitbox = true;
+            Hitbox.Initialize(device);
+        }
+
+
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Texture, new Rectangle(_location.X, _location.Y, _size.Width, _size.Height), new Color(255, 255, 255));

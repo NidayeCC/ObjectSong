@@ -45,9 +45,9 @@ namespace ApocalandMG
 
           
             // Load the Default OSE Cursor
-            _defaultcursor = new OSECursor(this, new OSESize2D(32,32), new OSELocation2D(0,0));
-            _defaultcursor.LoadTexture(Content, "OSEContent/CrossHair32x32");
-            _defaultcursor.DrawHitBox = true;
+            _defaultcursor = new OSECursor(new OSESize2D(32,32), new OSELocation2D(0,0));
+            _defaultcursor.LoadTexture(GraphicsDevice, Content, "OSEContent/CrossHair32x32");
+            _defaultcursor.EnableHitBox(GraphicsDevice);
 
             // Offset the hitbox to the middle of the cursor rectangle and make it very small
             _defaultcursor.Hitbox.Size.Height = 2;
@@ -55,10 +55,11 @@ namespace ApocalandMG
             _defaultcursor.Hitbox.Offset = new OSELocation2D(15,15);
 
             //Build a menu for the Play and Exit functions
-            _mapbuildmenu = new OSEMenu(this, _menufont);
+            _mapbuildmenu = new OSEMenu(_menufont);
             _mapbuildmenu.Location = new OSELocation2D(10,10);
             _mapbuildmenu.AddItem("Play", "Play", 0);
             _mapbuildmenu.AddItem("Exit", "Exit", 1);
+            _mapbuildmenu.EnableHitBox(GraphicsDevice);
 
         }
 
