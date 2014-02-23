@@ -1,6 +1,6 @@
 ﻿namespace ObjectSongEngineMG
 {
-    public class OSEPlayer : OSESprite
+    public class OSEPlayObject : OSESprite
     {
         private OSEAttributeList _attributes;
  
@@ -18,7 +18,7 @@
         }
 
 
-        public OSEPlayer(OSESize2D size, OSELocation2D location) :base(size, location)
+        public OSEPlayObject(OSESize2D size, OSELocation2D location) :base(size, location)
         {
             _attributes = new OSEAttributeList();
         }

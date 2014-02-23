@@ -10,10 +10,23 @@ namespace ObjectSongEngineMG
         private OSESize2D _size;
         private OSELocation2D _location;
         private Boolean _drawhitbox;
+        private Boolean _visible;
 
         protected Texture2D Texture;
-              
-        //protected Game XNAGame;
+
+
+        public Boolean Visible
+        {
+            get
+            {
+                return _visible;
+            }
+            set
+            {
+                _visible = value;
+            }
+        }
+
 
         public OSEHitBox Hitbox
         {
@@ -61,6 +74,7 @@ namespace ObjectSongEngineMG
             _location = new OSELocation2D(location);
             Hitbox = new OSEHitBox(new OSELocation2D(0,0), _size);         
             _drawhitbox = false;
+            _visible = true;
         }
 
 
@@ -80,10 +94,14 @@ namespace ObjectSongEngineMG
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, new Rectangle(_location.X, _location.Y, _size.Width, _size.Height), new Color(255, 255, 255));
-            if (DrawHitBox)
+            if (_visible)
             {
-                Hitbox.Draw(spriteBatch, _location);
+                spriteBatch.Draw(Texture, new Rectangle(_location.X, _location.Y, _size.Width, _size.Height),
+                    new Color(255, 255, 255));
+                if (DrawHitBox)
+                {
+                    Hitbox.Draw(spriteBatch, _location);
+                }
             }
         }
 
