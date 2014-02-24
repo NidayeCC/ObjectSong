@@ -57,11 +57,11 @@ namespace ObjectSongEngineMG
         }
 
 
-        public void EnableHitBox(GraphicsDevice device)
+        public void CreateHitBoxes(GraphicsDevice device)
         {
             foreach (OSEMenuItem item in _items)
             {
-                item.EnableHitBox(device);
+                item.CreateHitBox(device);
             }
         }
 
@@ -71,7 +71,7 @@ namespace ObjectSongEngineMG
             var item = new OSEMenuItem(text, action, index, _spriteFont)
             {
                 NormalColor = _normalText,
-                HighlightColor = _highlightText     
+                HighlightColor = _highlightText,
             };    
             _items.Add(item);
 
@@ -116,7 +116,7 @@ namespace ObjectSongEngineMG
 
             foreach (var item in _items)
             {
-                item.Draw(spriteBatch, _spriteFont);
+                item.Draw(spriteBatch);
             }
      
         }

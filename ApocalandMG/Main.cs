@@ -27,9 +27,13 @@ namespace ApocalandMG
         private OSEMenu _mapbuildmenu;
         private OSEPlayObject _humanplayer;
         private OSEPlayObject _pile;
+        private OSELabel _scorelabel;
   
         // Game play mode
         private Int32 _mode;
+
+        //Internal variables for game play
+        private Int32 _score;
 
 
         public Main() 
@@ -48,6 +52,7 @@ namespace ApocalandMG
         /// </summary>
         protected override void LoadContent()
         {
+            _score = 0;
 
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -62,8 +67,7 @@ namespace ApocalandMG
             _defaultcursor.LoadTexture(GraphicsDevice, Content, "OSEContent/CrossHair32x32");
 
             // We enable visible hit boxes for debugging purposes, you can shut them off in production code
-            _defaultcursor.EnableHitBox(GraphicsDevice);
-
+            _defaultcursor.CreateHitBox(GraphicsDevice);
             // Offset the hitbox to the middle of the cursor rectangle and make it very small
             _defaultcursor.Hitbox.Size.Height = 2;
             _defaultcursor.Hitbox.Size.Width = 2;
@@ -74,17 +78,23 @@ namespace ApocalandMG
             _mapbuildmenu.Location = new OSELocation2D(10,10);
             _mapbuildmenu.AddItem("Play", "Play", 0);
             _mapbuildmenu.AddItem("Exit", "Exit", 1);
-            _mapbuildmenu.EnableHitBox(GraphicsDevice);
+            // Create hitbox outlines on all menu items for debugging collisions
+            _mapbuildmenu.CreateHitBoxes(GraphicsDevice);
 
             //Build the human player
             _humanplayer = new OSEPlayObject(new OSESize2D(64, 128), new OSELocation2D(0,0));
             _humanplayer.LoadTexture(GraphicsDevice, Content, "uglyman");
             _humanplayer.Attributes.Add("walkspeed", "5");
+            _humanplayer.CreateHitBox(GraphicsDevice);
 
             _pile = new OSEPlayObject(new OSESize2D(32,32), new OSELocation2D(0,0));
             _pile.LoadTexture(GraphicsDevice, Content, "pile");
             _pile.Attributes.Add("pointvalue", "100");
+            _pile.CreateHitBox(GraphicsDevice);
             _pile.Visible = false;
+
+            _scorelabel = new OSELabel("0", _menufont);
+            _scorelabel.Location = new OSELocation2D(400, 10);
 
         }
 
@@ -107,7 +117,10 @@ namespace ApocalandMG
             _input.Update();
 
             if (_input.NewKeyState.Contains(Keys.Escape))
+            {
                 _mode = 1;
+                _score = 0;
+            }
 
             switch (_mode)
             {
@@ -126,8 +139,15 @@ namespace ApocalandMG
 
         public void UpdateRunTime()
         {
+            UpdateScore();
             UpdatePlayer();
             UpdatePile();
+        }
+
+
+        public void UpdateScore()
+        {
+            _scorelabel.Text = "Score: " + _score.ToString();
         }
 
 
@@ -147,6 +167,7 @@ namespace ApocalandMG
                 if (_pile.CheckForHit(_humanplayer))
                 {
                     _pile.Visible = false;
+                    _score += Convert.ToInt32(_pile.Attributes.GetValue("pointvalue"));
                 }
             }
         }
@@ -216,6 +237,7 @@ namespace ApocalandMG
 
                 _pile.Draw(_spriteBatch);
                 _humanplayer.Draw(_spriteBatch);
+                _scorelabel.Draw(_spriteBatch);
 
                 _spriteBatch.End();
             }

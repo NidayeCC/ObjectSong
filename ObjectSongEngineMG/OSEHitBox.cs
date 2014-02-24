@@ -10,7 +10,20 @@ namespace ObjectSongEngineMG
         private OSELocation2D _offset;
         private Texture2D _pixeltex;
         private Color _pixelcolor;
-        
+        private bool _enabled;
+
+
+        public bool Enabled
+        {
+            get
+            {
+                return _enabled;
+            }
+            set
+            {
+                _enabled = true;
+            }
+        }
 
 
         public OSESize2D Size
@@ -22,6 +35,7 @@ namespace ObjectSongEngineMG
             set
             {
                 _size = value;
+
             }
         }
 
@@ -39,10 +53,12 @@ namespace ObjectSongEngineMG
         }
 
 
-        public OSEHitBox(OSELocation2D offset, OSESize2D size)
+        public OSEHitBox(OSELocation2D offset, OSESize2D size, GraphicsDevice graphics)
         {
             _offset = new OSELocation2D(offset);
             _size = new OSESize2D(size.Width, size.Height);
+            Initialize(graphics);
+            Enabled = true;
         }
 
 
@@ -52,6 +68,7 @@ namespace ObjectSongEngineMG
             _pixeltex.SetData(new[] { Color.White });
             _pixelcolor = new Color(255, 255, 255, 255);
         }
+
 
         public virtual void Draw(SpriteBatch spriteBatch, OSELocation2D location)
         {

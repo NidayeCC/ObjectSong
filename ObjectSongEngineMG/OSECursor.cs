@@ -11,9 +11,5 @@ namespace ObjectSongEngineMG
 
         }
 
-        public new void EnableHitBox(GraphicsDevice device)
-        {
-            base.EnableHitBox(device);
-        }
     }
 }

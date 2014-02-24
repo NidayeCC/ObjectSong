@@ -5,35 +5,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ObjectSongEngineMG
 {
-    public class OSEMenuItem : OSESprite
+    public class OSEMenuItem : OSESpriteText
     {
-        private readonly Guid _id;
-
         private Color _normalcolor;
 
         private Color _highlightcolor;
 
-        private Color _currentcolor;
-
         private bool _selected;
 
-
-        public Guid ID
-        {
-            get
-            {
-                return _id;
-            }
-        }
-
-
-        public String Text
-        {
-            get;
-            set;
-        }
-
-
+         
         public String Action
         {
             get;
@@ -58,7 +38,7 @@ namespace ObjectSongEngineMG
             {
                 _normalcolor = value;
                 if(!_selected)
-                    _currentcolor = _normalcolor;
+                    TextColor = _normalcolor;
             }
         }
 
@@ -73,34 +53,19 @@ namespace ObjectSongEngineMG
             {
                 _highlightcolor = value;
                 if (_selected)
-                    _currentcolor = _highlightcolor;
-            }
-        }
-
-
-        public Color CurrentColor
-        {
-            get
-            {
-                return _currentcolor;
+                    TextColor = _highlightcolor;
             }
         }
 
 
         public OSEMenuItem(String itemText, String itemAction, Int32 itemOrder, SpriteFont font)
-            : base(new OSESize2D(1,1), new OSELocation2D(0,0))
+            : base(itemText, font)
         {
             if (!String.IsNullOrEmpty(itemText))
             {
-                _id = Guid.NewGuid();
-                Text = itemText;
-                Action = itemAction;
+                 Action = itemAction;
                 Order = itemOrder;
                 _selected = false;
-
-                var size = font.MeasureString(itemText);
-                Size = new OSESize2D(size);
-                Hitbox.Size = Size;
             }
             else
             {
@@ -118,14 +83,8 @@ namespace ObjectSongEngineMG
         public void Update(OSECursor cursor)
         {
             _selected = CursorOver(cursor);
-            _currentcolor = _selected ? _highlightcolor : _normalcolor;
+            TextColor = _selected ? _highlightcolor : _normalcolor;
         }
 
-
-        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
-        {
-            spriteBatch.DrawString(font, Text, Location.ToVector2, _currentcolor);
-            Hitbox.Draw(spriteBatch, Location);
-        }
     }
 }

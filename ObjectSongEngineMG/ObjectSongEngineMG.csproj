@@ -43,6 +43,7 @@
     <Compile Include="OSECursor.cs" />
     <Compile Include="OSEHitBox.cs" />
     <Compile Include="OSEInput.cs" />
+    <Compile Include="OSELabel.cs" />
     <Compile Include="OSELocation2D.cs" />
     <Compile Include="OSEMenu.cs" />
     <Compile Include="OSEMenuItem.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="OSEPlayObject.cs" />
     <Compile Include="OSESize2D.cs" />
     <Compile Include="OSESprite.cs" />
+    <Compile Include="OSESpriteText.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,12 +7,21 @@ namespace ObjectSongEngineMG
 {
     public class OSESprite
     {
+        private Guid _id;
         private OSESize2D _size;
         private OSELocation2D _location;
-        private Boolean _drawhitbox;
         private Boolean _visible;
 
         protected Texture2D Texture;
+
+
+        public Guid ID
+        {
+            get
+            {
+                return _id;
+            }
+        }
 
 
         public Boolean Visible
@@ -34,14 +43,6 @@ namespace ObjectSongEngineMG
             set;
         }
 
-
-        public bool DrawHitBox
-        {
-            get
-            {
-                return _drawhitbox;
-            }
-        }
 
         public OSESize2D Size
         {
@@ -70,10 +71,9 @@ namespace ObjectSongEngineMG
 
         public OSESprite(OSESize2D size, OSELocation2D location)
         {
+            _id = Guid.NewGuid();
             _size = new OSESize2D(size);
-            _location = new OSELocation2D(location);
-            Hitbox = new OSEHitBox(new OSELocation2D(0,0), _size);         
-            _drawhitbox = false;
+            _location = new OSELocation2D(location);       
             _visible = true;
         }
 
@@ -85,23 +85,30 @@ namespace ObjectSongEngineMG
         }
 
 
-        public virtual void EnableHitBox(GraphicsDevice device)
+        public void CreateHitBox(GraphicsDevice device)
         {
-            _drawhitbox = true;
-            Hitbox.Initialize(device);
+            Hitbox = new OSEHitBox(_location, _size, device);
+            Hitbox.Enabled = true;
         }
 
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+         public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (_visible)
             {
                 spriteBatch.Draw(Texture, new Rectangle(_location.X, _location.Y, _size.Width, _size.Height),
                     new Color(255, 255, 255));
-                if (DrawHitBox)
-                {
-                    Hitbox.Draw(spriteBatch, _location);
-                }
+                DrawHitBox(spriteBatch);
+            }
+        }
+
+        //Used to debug collisions
+        //Set Hitbox.Enabled to TRUE to use this method
+        public void DrawHitBox(SpriteBatch spriteBatch)
+        {
+            if (Hitbox.Enabled)
+            {
+                Hitbox.Draw(spriteBatch, _location);
             }
         }
 
