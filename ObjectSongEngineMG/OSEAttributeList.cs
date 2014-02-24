@@ -68,6 +68,17 @@ namespace ObjectSongEngineMG
         }
 
 
+        public string GetValue(string itemKey)
+        {
+            OSEAttribute item;
+            if ((item = _items.Find(x => x.Key == itemKey)) != null)
+            {
+                return item.Value;
+            }
+            return null;
+        }
+
+
         public OSEAttribute Find(Guid itemID)
         {
 // ReSharper disable RedundantAssignment

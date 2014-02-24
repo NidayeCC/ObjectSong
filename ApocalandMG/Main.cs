@@ -13,15 +13,24 @@ namespace ApocalandMG
     /// </summary>
     public class Main : Game
     {
-        SpriteBatch _spriteBatch;
+        // The XNA graphics device manager
+        [UsedImplicitly]
+        internal GraphicsDeviceManager Graphics;
 
-        [UsedImplicitly] internal GraphicsDeviceManager Graphics;
-
-        OSECursor _defaultcursor;
+        //XNA objects
+        private SpriteBatch _spriteBatch;
+        private SpriteFont _menufont;
+        
+        //ObjectSong Objects
+        private OSEInput _input;
+        private OSECursor _defaultcursor;
         private OSEMenu _mapbuildmenu;
-        SpriteFont _menufont;
+        private OSEPlayObject _humanplayer;
+        private OSEPlayObject _pile;
+  
+        // Game play mode
+        private Int32 _mode;
 
-        Int32 _mode;
 
         public Main() 
         {
@@ -29,6 +38,7 @@ namespace ApocalandMG
 
             Content.RootDirectory = "Content";
 
+            // Set the game mode to the main menu
             _mode = 1;
         }
 
@@ -38,15 +48,20 @@ namespace ApocalandMG
         /// </summary>
         protected override void LoadContent()
         {
+
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            // Create the font for our OSEMenu
             _menufont = Content.Load<SpriteFont>("Arial");
 
-          
+            //Instantiate our mouse & keyboard controller
+            _input = new OSEInput();
+
             // Load the Default OSE Cursor
             _defaultcursor = new OSECursor(new OSESize2D(32,32), new OSELocation2D(0,0));
             _defaultcursor.LoadTexture(GraphicsDevice, Content, "OSEContent/CrossHair32x32");
+
+            // We enable visible hit boxes for debugging purposes, you can shut them off in production code
             _defaultcursor.EnableHitBox(GraphicsDevice);
 
             // Offset the hitbox to the middle of the cursor rectangle and make it very small
@@ -60,6 +75,16 @@ namespace ApocalandMG
             _mapbuildmenu.AddItem("Play", "Play", 0);
             _mapbuildmenu.AddItem("Exit", "Exit", 1);
             _mapbuildmenu.EnableHitBox(GraphicsDevice);
+
+            //Build the human player
+            _humanplayer = new OSEPlayObject(new OSESize2D(64, 128), new OSELocation2D(0,0));
+            _humanplayer.LoadTexture(GraphicsDevice, Content, "uglyman");
+            _humanplayer.Attributes.Add("walkspeed", "5");
+
+            _pile = new OSEPlayObject(new OSESize2D(32,32), new OSELocation2D(0,0));
+            _pile.LoadTexture(GraphicsDevice, Content, "pile");
+            _pile.Attributes.Add("pointvalue", "100");
+            _pile.Visible = false;
 
         }
 
@@ -79,27 +104,19 @@ namespace ApocalandMG
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-            //    this.Exit();
+            _input.Update();
 
-            Keys[] state = Keyboard.GetState().GetPressedKeys();
-
-            MouseState mousestate = Mouse.GetState();
-
-            if (state.Contains(Keys.Escape))
+            if (_input.NewKeyState.Contains(Keys.Escape))
                 _mode = 1;
 
-    
-            if (_mode == 0)
+            switch (_mode)
             {
-                UpdateRunTime();
-            }
-
-
-            if (_mode == 1)
-            {
-                UpdateMapEditor(gameTime, mousestate);
+                case 0:
+                    UpdateRunTime();
+                    break;
+                case 1:
+                    UpdateMapEditor(gameTime);
+                    break;
             }
 
 
@@ -109,18 +126,66 @@ namespace ApocalandMG
 
         public void UpdateRunTime()
         {
-
+            UpdatePlayer();
+            UpdatePile();
         }
 
 
-        public void UpdateMapEditor(GameTime gameTime, MouseState mouseState)
+        public void UpdatePile()
+        {
+
+            if (_pile.Visible == false)
+            {
+                Random rnd1 = new Random();
+                Random rnd2 = new Random();
+
+                _pile.Location = new OSELocation2D(rnd1.Next(620), rnd2.Next(460));
+                _pile.Visible = true;
+            }
+            else
+            {
+                if (_pile.CheckForHit(_humanplayer))
+                {
+                    _pile.Visible = false;
+                }
+            }
+        }
+
+
+        public void UpdatePlayer()
+        {
+            var playerspeed = Convert.ToInt32(_humanplayer.Attributes.GetValue("walkspeed"));
+
+            if (_input.NewKeyState.Contains(Keys.Right))
+            {
+                _humanplayer.Location.X += playerspeed;
+            }
+
+            if (_input.NewKeyState.Contains(Keys.Left))
+            {
+                _humanplayer.Location.X -= playerspeed;
+            }
+
+            if (_input.NewKeyState.Contains(Keys.Up))
+            {
+                _humanplayer.Location.Y -= playerspeed;
+            }
+
+            if (_input.NewKeyState.Contains(Keys.Down))
+            {
+                _humanplayer.Location.Y += playerspeed;
+            }    
+        }
+
+
+        public void UpdateMapEditor(GameTime gameTime)
         {
             // Update the cursor location from the mouse position
-            _defaultcursor.Location.Update(Mouse.GetState());
+            _defaultcursor.Location.Update(_input.NewMouseState);
 
             _mapbuildmenu.Update(_defaultcursor);
 
-            if (_mapbuildmenu.SelectedItem != null && mouseState.LeftButton == ButtonState.Pressed)
+            if (_mapbuildmenu.SelectedItem != null && _input.NewMouseState.LeftButton == ButtonState.Pressed)
             {
                 if (_mapbuildmenu.SelectedItem.Action == "Exit")
                 {
@@ -147,7 +212,12 @@ namespace ApocalandMG
             // Draw the Run Time
             if (_mode == 0)
             {
+                _spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
 
+                _pile.Draw(_spriteBatch);
+                _humanplayer.Draw(_spriteBatch);
+
+                _spriteBatch.End();
             }
 
 
