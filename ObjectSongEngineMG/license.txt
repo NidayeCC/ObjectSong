@@ -1,0 +1,35 @@
+﻿ObjectSong Super Simple License Agreement
+
+Terms:
+
+"You" or "you" - The person reading this license agreement and/or using the software, framework(s), dynamic link libraries, or
+other works covered by the agreement.
+ 
+ "We" or "we" or "us" or "Us" - ObjectSong, its staff, contractors, affiliates and anyone who does work on behalf of ObjectSong.
+
+ "Software" or "software" - Any software, framework, dynamic link library, or other source code provided by ObjectSong
+
+Conditions:
+
+1) By using this software, you are agreeing to be bound by this license agreement without exception.
+
+2) This software is provided without any warranty whatsoever, and is  delivered "as-is".
+It may contain errors, ommissions, material defects, security holes, and many other hazards that could
+render it unusable by you.  It is up to you to determine the usability of the software and to exercise due diligence
+and care when implementing and using the software.  We will not be liable for any damages, real or imagined, tangible 
+or intangible, to you or anyone else as a result of the use of ObjectSong software.  You agree to indemnify us
+from any and all legal and liability troubles resulting from your use of the software, without exception.
+
+3) All the intellectual property in this software belongs to ObjectSong.  You may copy the software and use it in your
+derived works, as long as those works are not sold, or used for commercial gain of any kind.  You may freely copy,
+use and derive from the software for private, and non-funded educational purposes.  If you wish to use the software for commercial purposes,
+or for funded educational purposes (such as private schools or universities) 
+you must obtain written permission from ObjectSong, and you will probably be required to pay for the privilege.
+This condition applies even if your commercial use is from a derived work that contains ObjectSong software.
+
+4) You must include this license agreement when you distribute any work that includes the software, even if the work is derived.
+
+5) Failing to read this license agreement does not absolve you from the responsibility to enforce the agreement, and
+to be bound by it.  In other words, ignorance is no excuse.  You acknowledge that failing to enforce this agreement and/or
+to be bound by it can, and probably will, result in legal action by us.
+
