@@ -66,12 +66,15 @@ namespace ApocalandMG
             _defaultcursor = new OSECursor(new OSESize2D(32,32), new OSELocation2D(0,0));
             _defaultcursor.LoadTexture(GraphicsDevice, Content, "OSEContent/CrossHair32x32");
 
-            // We enable visible hit boxes for debugging purposes, you can shut them off in production code
+            // We enable hit boxes for collision detection
             _defaultcursor.CreateHitBox(GraphicsDevice);
             // Offset the hitbox to the middle of the cursor rectangle and make it very small
             _defaultcursor.Hitbox.Size.Height = 2;
             _defaultcursor.Hitbox.Size.Width = 2;
             _defaultcursor.Hitbox.Offset = new OSELocation2D(15,15);
+
+            // To facilitate debugging, we draw the hitbox as a white rectangle
+            // this can be shut off in production code
             _defaultcursor.Hitbox.Visible = true;
 
             //Build a menu for the Play and Exit functions
