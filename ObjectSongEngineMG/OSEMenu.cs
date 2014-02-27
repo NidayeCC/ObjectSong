@@ -12,6 +12,7 @@ namespace ObjectSongEngineMG
     {
         private readonly Color _normalText;
         private readonly Color _highlightText;
+        private bool _hitboxesvisible;
 
         private readonly SpriteFont _spriteFont;
         private OSELocation2D _location2D;
@@ -44,6 +45,20 @@ namespace ObjectSongEngineMG
         }
 
 
+        public bool HitBoxesVisible
+        {
+            get
+            {
+                return _hitboxesvisible;
+            }
+            set
+            {
+                SetHitBoxesVisible(value);
+                _hitboxesvisible = value;  
+            }
+        }
+
+
         public OSEMenu(SpriteFont menuFont) 
         {
             _items = new List<OSEMenuItem>();
@@ -54,6 +69,7 @@ namespace ObjectSongEngineMG
             _highlightText = new Color(255, 0, 0, 255);
             _orientation = OSEMenuOrientation.Vertical;
             _selecteditem = null;
+            _hitboxesvisible = false;
         }
 
 
@@ -62,6 +78,15 @@ namespace ObjectSongEngineMG
             foreach (OSEMenuItem item in _items)
             {
                 item.CreateHitBox(device);
+            }
+        }
+
+
+        private void SetHitBoxesVisible(bool visibility)
+        {
+            foreach (OSEMenuItem item in _items)
+            {
+                item.Hitbox.Visible = visibility;
             }
         }
 

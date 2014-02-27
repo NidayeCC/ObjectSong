@@ -11,6 +11,7 @@ namespace ObjectSongEngineMG
         private Texture2D _pixeltex;
         private Color _pixelcolor;
         private bool _enabled;
+        private bool _visible;
 
 
         public bool Enabled
@@ -21,7 +22,20 @@ namespace ObjectSongEngineMG
             }
             set
             {
-                _enabled = true;
+                _enabled = value;
+            }
+        }
+
+
+        public bool Visible
+        {
+            get
+            {
+                return _visible;
+            }
+            set
+            {
+                _visible = value;
             }
         }
 
@@ -58,7 +72,8 @@ namespace ObjectSongEngineMG
             _offset = new OSELocation2D(offset);
             _size = new OSESize2D(size.Width, size.Height);
             Initialize(graphics);
-            Enabled = true;
+            _enabled = true;
+            _visible = false;
         }
 
 
@@ -72,18 +87,20 @@ namespace ObjectSongEngineMG
 
         public virtual void Draw(SpriteBatch spriteBatch, OSELocation2D location)
         {
-            // Draw top line
-            spriteBatch.Draw(_pixeltex, new Rectangle(location.X + _offset.X, location.Y + _offset.Y, _size.Width, 1), _pixelcolor);
+            if (_visible)
+            {
+                // Draw top line
+                spriteBatch.Draw(_pixeltex, new Rectangle(location.X + _offset.X, location.Y + _offset.Y, _size.Width, 1), _pixelcolor);
 
-            // Draw left line
-            spriteBatch.Draw(_pixeltex, new Rectangle(location.X + _offset.X, location.Y + _offset.Y, 1, _size.Height), _pixelcolor);
+                // Draw left line
+                spriteBatch.Draw(_pixeltex, new Rectangle(location.X + _offset.X, location.Y + _offset.Y, 1, _size.Height), _pixelcolor);
 
-            // Draw right line
-            spriteBatch.Draw(_pixeltex, new Rectangle((location.X + _offset.X + _size.Width - 1),location.Y + _offset.Y, 1, _size.Height), _pixelcolor);
+                // Draw right line
+                spriteBatch.Draw(_pixeltex, new Rectangle((location.X + _offset.X + _size.Width - 1), location.Y + _offset.Y, 1, _size.Height), _pixelcolor);
 
-            // Draw bottom line
-            spriteBatch.Draw(_pixeltex, new Rectangle(location.X + _offset.X, location.Y + _offset.Y + _size.Height - 1, _size.Width, 1), _pixelcolor);
-  
+                // Draw bottom line
+                spriteBatch.Draw(_pixeltex, new Rectangle(location.X + _offset.X, location.Y + _offset.Y + _size.Height - 1, _size.Width, 1), _pixelcolor);
+            }
         }
     }
 }

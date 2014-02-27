@@ -11,6 +11,7 @@ namespace ObjectSongEngineMG
         private OSESize2D _size;
         private OSELocation2D _location;
         private Boolean _visible;
+        private OSEHitBox _hitbox;
 
         protected Texture2D Texture;
 
@@ -39,8 +40,14 @@ namespace ObjectSongEngineMG
 
         public OSEHitBox Hitbox
         {
-            get;
-            set;
+            get
+            {
+                return _hitbox;
+            }
+            set
+            {
+                _hitbox = value;
+            }
         }
 
 
@@ -87,37 +94,41 @@ namespace ObjectSongEngineMG
 
         public void CreateHitBox(GraphicsDevice device)
         {
-            Hitbox = new OSEHitBox(_location, _size, device);
-            Hitbox.Enabled = true;
+            _hitbox = new OSEHitBox(_location, _size, device);
         }
 
 
-         public virtual void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (_visible)
             {
                 spriteBatch.Draw(Texture, new Rectangle(_location.X, _location.Y, _size.Width, _size.Height),
                     new Color(255, 255, 255));
-                DrawHitBox(spriteBatch);
+                if(_hitbox != null)
+                    DrawHitBox(spriteBatch);
             }
         }
+
 
         //Used to debug collisions
-        //Set Hitbox.Enabled to TRUE to use this method
+        //Set Hitbox.Visible to TRUE to use this method, otherwise it will not draw
         public void DrawHitBox(SpriteBatch spriteBatch)
         {
-            if (Hitbox.Enabled)
-            {
-                Hitbox.Draw(spriteBatch, _location);
-            }
+                _hitbox.Draw(spriteBatch, _location);
         }
 
 
+        // Set Hitbox.Enabled to TRUE to use this method.
         public bool CheckForHit(OSESprite target)
         {
-            var hitrect = new Rectangle(_location.X + Hitbox.Offset.X, _location.Y + Hitbox.Offset.Y, Hitbox.Size.Width, Hitbox.Size.Height);
-            var targetrect = new Rectangle(target.Location.X + target.Hitbox.Offset.X, target.Location.Y + target.Hitbox.Offset.Y, target.Hitbox.Size.Width, target.Hitbox.Size.Height);
-            return targetrect.Intersects(hitrect);
+            if (_hitbox.Enabled)
+            {
+                var hitrect = new Rectangle(_location.X + _hitbox.Offset.X, _location.Y + _hitbox.Offset.Y, _hitbox.Size.Width, _hitbox.Size.Height);
+                var targetrect = new Rectangle(target.Location.X + target.Hitbox.Offset.X, target.Location.Y + target.Hitbox.Offset.Y, target.Hitbox.Size.Width, target.Hitbox.Size.Height);
+                return targetrect.Intersects(hitrect);
+            }
+            else
+                return false;
         }
 
 

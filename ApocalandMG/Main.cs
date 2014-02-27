@@ -72,25 +72,29 @@ namespace ApocalandMG
             _defaultcursor.Hitbox.Size.Height = 2;
             _defaultcursor.Hitbox.Size.Width = 2;
             _defaultcursor.Hitbox.Offset = new OSELocation2D(15,15);
+            _defaultcursor.Hitbox.Visible = true;
 
             //Build a menu for the Play and Exit functions
             _mapbuildmenu = new OSEMenu(_menufont);
             _mapbuildmenu.Location = new OSELocation2D(10,10);
             _mapbuildmenu.AddItem("Play", "Play", 0);
             _mapbuildmenu.AddItem("Exit", "Exit", 1);
-            // Create hitbox outlines on all menu items for debugging collisions
+            // Create hitbox outlines on all menu items for collision detection with cursor
             _mapbuildmenu.CreateHitBoxes(GraphicsDevice);
+            _mapbuildmenu.HitBoxesVisible = true;
 
             //Build the human player
             _humanplayer = new OSEPlayObject(new OSESize2D(64, 128), new OSELocation2D(0,0));
             _humanplayer.LoadTexture(GraphicsDevice, Content, "uglyman");
             _humanplayer.Attributes.Add("walkspeed", "5");
             _humanplayer.CreateHitBox(GraphicsDevice);
+            _humanplayer.Hitbox.Visible = true;
 
             _pile = new OSEPlayObject(new OSESize2D(32,32), new OSELocation2D(0,0));
             _pile.LoadTexture(GraphicsDevice, Content, "pile");
             _pile.Attributes.Add("pointvalue", "100");
             _pile.CreateHitBox(GraphicsDevice);
+            _pile.Hitbox.Visible = true;
             _pile.Visible = false;
 
             _scorelabel = new OSELabel("0", _menufont);
