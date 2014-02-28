@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectSongEngineMG", "Objec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApocalandMG", "ApocalandMG\ApocalandMG.csproj", "{D28B5860-EC55-49EA-82F0-BF55934503F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatzinaMaze", "RatzinaMaze\RatzinaMaze.csproj", "{AB8C10D3-36AB-4363-8223-C362C7248DD4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -19,6 +21,10 @@ Global
 		{D28B5860-EC55-49EA-82F0-BF55934503F4}.Debug|x86.Build.0 = Debug|x86
 		{D28B5860-EC55-49EA-82F0-BF55934503F4}.Release|x86.ActiveCfg = Release|x86
 		{D28B5860-EC55-49EA-82F0-BF55934503F4}.Release|x86.Build.0 = Release|x86
+		{AB8C10D3-36AB-4363-8223-C362C7248DD4}.Debug|x86.ActiveCfg = Debug|x86
+		{AB8C10D3-36AB-4363-8223-C362C7248DD4}.Debug|x86.Build.0 = Debug|x86
+		{AB8C10D3-36AB-4363-8223-C362C7248DD4}.Release|x86.ActiveCfg = Release|x86
+		{AB8C10D3-36AB-4363-8223-C362C7248DD4}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
