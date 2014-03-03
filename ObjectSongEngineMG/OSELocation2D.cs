@@ -81,25 +81,27 @@ namespace ObjectSongEngineMG
             _yloc = Convert.ToInt32(location.Y);
         }
 
+        ///Deprecated
+        ////public void Update(MouseState mouseState)
+        ////{
+        ////    _xloc = mouseState.X;
+        ////    _yloc = mouseState.Y;
+        ////}
 
-        public void Update(MouseState mouseState)
-        {
-            _xloc = mouseState.X;
-            _yloc = mouseState.Y;
-        }
+        ///Deprecated
+        ////public void Update(Int32 xLoc, Int32 yLoc)
+        ////{
+        ////    _xloc = xLoc;
+        ////    _yloc = yLoc;
+        ////}
+
+        ///Deprecated
+        //public void Update(Vector2 locationVector2)
+        //{
+        //    _xloc = Convert.ToInt32(locationVector2.X);
+        //    _yloc = Convert.ToInt32(locationVector2.Y);
+        //}
 
 
-        public void Update(Int32 xLoc, Int32 yLoc)
-        {
-            _xloc = xLoc;
-            _yloc = yLoc;
-        }
-
-
-        public void Update(Vector2 locationVector2)
-        {
-            _xloc = Convert.ToInt32(locationVector2.X);
-            _yloc = Convert.ToInt32(locationVector2.Y);
-        }
     }
 }

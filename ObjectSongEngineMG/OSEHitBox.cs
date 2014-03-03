@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ObjectSongEngineMG
@@ -7,7 +8,10 @@ namespace ObjectSongEngineMG
     {
 
         private OSESize2D _size;
+        private OSELocation2D _location;
+        private OSELocation2D _origin;
         private OSELocation2D _offset;
+        private OSESpriteOrientation _orientation;
         private Texture2D _pixeltex;
         private Color _pixelcolor;
         private bool _enabled;
@@ -23,6 +27,19 @@ namespace ObjectSongEngineMG
             set
             {
                 _enabled = value;
+            }
+        }
+
+
+        public OSESpriteOrientation Orientation
+        {
+            get
+            {
+                return _orientation;
+            }
+            set
+            {
+                _orientation = value;
             }
         }
 
@@ -54,6 +71,31 @@ namespace ObjectSongEngineMG
         }
 
 
+        public OSELocation2D Location
+        {
+            get
+            {
+                return _location;
+            }
+            set
+            {
+                _location = value;
+            }
+        }
+
+
+        public OSELocation2D Origin
+        {
+            get
+            {
+                return _origin;
+            }
+            set
+            {
+                _origin = value;
+            }
+        }
+
         public OSELocation2D Offset
         {
             get
@@ -67,9 +109,12 @@ namespace ObjectSongEngineMG
         }
 
 
-        public OSEHitBox(OSELocation2D offset, OSESize2D size, GraphicsDevice graphics)
+        public OSEHitBox(OSELocation2D location, OSESize2D size, GraphicsDevice graphics)
         {
-            _offset = new OSELocation2D(offset);
+            _location = new OSELocation2D(location);
+            _origin = new OSELocation2D(0,0);
+            _offset = new OSELocation2D(0,0);
+            _orientation = OSESpriteOrientation.Right;
             _size = new OSESize2D(size.Width, size.Height);
             Initialize(graphics);
             _enabled = true;
@@ -85,22 +130,44 @@ namespace ObjectSongEngineMG
         }
 
 
-        public virtual void Draw(SpriteBatch spriteBatch, OSELocation2D location)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
-            if (_visible)
+            if (!_visible) return;
+
+            var finalx = _location.X + _offset.X - _origin.X;
+            var finaly = _location.Y + _offset.Y - _origin.Y;
+
+            // Draw top line
+            spriteBatch.Draw(_pixeltex, new Rectangle(finalx, finaly, _size.Width, 1), _pixelcolor);
+
+            // Draw left line
+            spriteBatch.Draw(_pixeltex, new Rectangle(finalx, finaly, 1, _size.Height), _pixelcolor);
+
+            // Draw right line
+            spriteBatch.Draw(_pixeltex, new Rectangle(finalx + _size.Width - 1, finaly, 1, _size.Height), _pixelcolor);
+
+            // Draw bottom line
+            spriteBatch.Draw(_pixeltex, new Rectangle(finalx, finaly + _size.Height - 1, _size.Width, 1), _pixelcolor);
+        }
+
+
+        public bool DetectHit(OSEHitBox targetHitBox)
+        {
+            if (_enabled)
             {
-                // Draw top line
-                spriteBatch.Draw(_pixeltex, new Rectangle(location.X + _offset.X, location.Y + _offset.Y, _size.Width, 1), _pixelcolor);
+                var finalx = _location.X + _offset.X - _origin.X;
+                var finaly = _location.Y + _offset.Y - _origin.Y;
 
-                // Draw left line
-                spriteBatch.Draw(_pixeltex, new Rectangle(location.X + _offset.X, location.Y + _offset.Y, 1, _size.Height), _pixelcolor);
+                var tfinalx = targetHitBox.Location.X + targetHitBox.Offset.X - targetHitBox.Origin.X;
+                var tfinaly = targetHitBox.Location.Y + targetHitBox.Offset.Y - targetHitBox.Origin.Y;
 
-                // Draw right line
-                spriteBatch.Draw(_pixeltex, new Rectangle((location.X + _offset.X + _size.Width - 1), location.Y + _offset.Y, 1, _size.Height), _pixelcolor);
+                var hitrect = new Rectangle(finalx, finaly, _size.Width, _size.Height);
+                var targetrect = new Rectangle(tfinalx, tfinaly, targetHitBox.Size.Width, targetHitBox.Size.Height);
 
-                // Draw bottom line
-                spriteBatch.Draw(_pixeltex, new Rectangle(location.X + _offset.X, location.Y + _offset.Y + _size.Height - 1, _size.Width, 1), _pixelcolor);
+                return targetrect.Intersects(hitrect);
             }
+            else
+                return false;
         }
     }
 }

@@ -1,12 +1,11 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.GamerServices;
+using ObjectSongEngineMG;
+
 #endregion
 
 namespace RatzinaMaze
@@ -16,27 +15,34 @@ namespace RatzinaMaze
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        // The XNA graphics device manager
+        internal GraphicsDeviceManager Graphics;
+
+        //XNA objects
+        private SpriteBatch _spriteBatch;
+        private SpriteFont _menufont;
+
+        //ObjectSong Objects
+        private OSEInput _input;
+        private OSECursor _defaultcursor;
+        private OSEMenu _mapbuildmenu;
+        private OSEPlayObject _humanplayer;
+        private OSELabel _scorelabel;
+
+        // Game play mode
+        private Int32 _mode;
+
+        //Internal variables for game play
+        private Int32 _score;
+
 
         public Game1()
-            : base()
         {
-            graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-        }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
-        protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
-
-            base.Initialize();
+            // Set the game mode to the main menu
+            _mode = 1;
         }
 
         /// <summary>
@@ -45,10 +51,51 @@ namespace RatzinaMaze
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _score = 0;
 
-            // TODO: use this.Content to load your game content here
+            // Create a new SpriteBatch, which can be used to draw textures.
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            // Create the font for our OSEMenu
+            _menufont = Content.Load<SpriteFont>("Arial");
+
+            //Instantiate our mouse & keyboard controller
+            _input = new OSEInput();
+
+            // Load the Default OSE Cursor
+            _defaultcursor = new OSECursor(new OSESize2D(32, 32), new OSELocation2D(0, 0));
+            _defaultcursor.LoadTexture(GraphicsDevice, Content, "CrossHair32x32");
+
+            // We enable hit boxes for collision detection
+            _defaultcursor.CreateHitBox(GraphicsDevice);
+            // Offset the hitbox to the middle of the cursor rectangle and make it very small
+            _defaultcursor.Hitbox.Size.Height = 2;
+            _defaultcursor.Hitbox.Size.Width = 2;
+            _defaultcursor.Hitbox.Offset = new OSELocation2D(15, 15);
+
+            // To facilitate debugging, we draw the hitbox as a white rectangle
+            // this can be shut off in production code
+            _defaultcursor.Hitbox.Visible = true;
+
+            //Build a menu for the Play and Exit functions
+            _mapbuildmenu = new OSEMenu(_menufont);
+            _mapbuildmenu.Location = new OSELocation2D(10, 10);
+            _mapbuildmenu.AddItem("Play", "Play", 0);
+            _mapbuildmenu.AddItem("Exit", "Exit", 1);
+            // Create hitbox outlines on all menu items for collision detection with cursor
+            _mapbuildmenu.CreateHitBoxes(GraphicsDevice);
+            _mapbuildmenu.HitBoxesVisible = true;
+
+            //Build the human player
+            _humanplayer = new OSEPlayObject(new OSESize2D(64, 64), new OSELocation2D(32, 32));
+            _humanplayer.LoadTexture(GraphicsDevice, Content, "rat64x64");
+            _humanplayer.Attributes.Add("walkspeed", "5");
+            _humanplayer.CreateHitBox(GraphicsDevice);
+            _humanplayer.Hitbox.Visible = true;
+            _humanplayer.Origin = new OSELocation2D(32, 32);
+
+            _scorelabel = new OSELabel("0", _menufont);
+            _scorelabel.Location = new OSELocation2D(400, 10);
+
         }
 
         /// <summary>
@@ -67,13 +114,97 @@ namespace RatzinaMaze
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            _input.Update();
 
-            // TODO: Add your update logic here
+            if (_input.NewKeyState.Contains(Keys.Escape))
+            {
+                _mode = 1;
+                _score = 0;
+            }
+
+            switch (_mode)
+            {
+                case 0:
+                    UpdateRunTime();
+                    break;
+                case 1:
+                    UpdateMapEditor(gameTime);
+                    break;
+            }
+
 
             base.Update(gameTime);
         }
+
+
+        public void UpdateRunTime()
+        {
+            UpdateScore();
+            UpdatePlayer();
+        }
+
+
+        public void UpdateScore()
+        {
+            _scorelabel.Text = "Score: " + _score;
+        }
+
+
+        public void UpdatePlayer()
+        {
+            var playerspeed = Convert.ToInt32(_humanplayer.Attributes.GetValue("walkspeed"));
+
+            if (_input.NewKeyState.Contains(Keys.Right))
+            {
+                _humanplayer.Location.X += playerspeed;
+                _humanplayer.Orientation = OSESpriteOrientation.Right;
+            }
+            else
+            if (_input.NewKeyState.Contains(Keys.Left))
+            {
+                _humanplayer.Location.X -= playerspeed;
+                _humanplayer.Orientation = OSESpriteOrientation.Left;
+            }
+            else
+            if (_input.NewKeyState.Contains(Keys.Up))
+            {
+                _humanplayer.Location.Y -= playerspeed;
+                _humanplayer.Orientation = OSESpriteOrientation.Up;
+            }
+            else
+            if (_input.NewKeyState.Contains(Keys.Down))
+            {
+                _humanplayer.Location.Y += playerspeed;
+                _humanplayer.Orientation = OSESpriteOrientation.Down;
+            }
+
+            // You must call update to update sprite information
+            _humanplayer.Update();
+        }
+
+
+        public void UpdateMapEditor(GameTime gameTime)
+        {
+            // Update the cursor location from the mouse position
+            _defaultcursor.Location = new OSELocation2D(_input.NewMouseState);
+
+            _mapbuildmenu.Update(_defaultcursor);
+
+            if (_mapbuildmenu.SelectedItem != null && _input.NewMouseState.LeftButton == ButtonState.Pressed)
+            {
+                if (_mapbuildmenu.SelectedItem.Action == "Exit")
+                {
+                    Exit();
+                }
+                if (_mapbuildmenu.SelectedItem.Action == "Play")
+                {
+                    _mode = 0;
+                }
+
+            }
+        }
+
+
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -81,9 +212,35 @@ namespace RatzinaMaze
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.SandyBrown);
 
-            // TODO: Add your drawing code here
+
+
+            // Draw the Run Time
+            if (_mode == 0)
+            {
+                _spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
+
+                _humanplayer.Draw(_spriteBatch);
+                _scorelabel.Draw(_spriteBatch);
+
+                _spriteBatch.End();
+            }
+
+
+            // Draw the Map Editor
+            if (_mode == 1)
+            {
+                _spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
+
+                // Draw the menu
+                _mapbuildmenu.Draw(_spriteBatch);
+
+                // Draw the cursor last, so that it is on top
+                _defaultcursor.Draw(_spriteBatch);
+
+                _spriteBatch.End();
+            }
 
             base.Draw(gameTime);
         }

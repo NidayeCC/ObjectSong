@@ -177,6 +177,8 @@ namespace ApocalandMG
                     _score += Convert.ToInt32(_pile.Attributes.GetValue("pointvalue"));
                 }
             }
+
+            _pile.Update();
         }
 
 
@@ -202,14 +204,17 @@ namespace ApocalandMG
             if (_input.NewKeyState.Contains(Keys.Down))
             {
                 _humanplayer.Location.Y += playerspeed;
-            }    
+            }
+    
+            // We must call Update on the sprite after changes
+            _humanplayer.Update();
         }
 
 
         public void UpdateMapEditor(GameTime gameTime)
         {
             // Update the cursor location from the mouse position
-            _defaultcursor.Location.Update(_input.NewMouseState);
+            _defaultcursor.Location = new OSELocation2D(_input.NewMouseState);
 
             _mapbuildmenu.Update(_defaultcursor);
 

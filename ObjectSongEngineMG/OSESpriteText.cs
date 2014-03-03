@@ -77,7 +77,7 @@ namespace ObjectSongEngineMG
             {
                 spriteBatch.DrawString(_font, Text, Location.ToVector2, _textcolor);
                 if(Hitbox != null)
-                    DrawHitBox(spriteBatch);
+                    Hitbox.Draw(spriteBatch);
             }
         }
     }
