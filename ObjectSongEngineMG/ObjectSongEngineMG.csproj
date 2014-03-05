@@ -45,6 +45,7 @@
     <Compile Include="OSEInput.cs" />
     <Compile Include="OSELabel.cs" />
     <Compile Include="OSELocation2D.cs" />
+    <Compile Include="OSEMap.cs" />
     <Compile Include="OSEMenu.cs" />
     <Compile Include="OSEMenuItem.cs" />
     <Compile Include="OSEMenuOrientation.cs" />

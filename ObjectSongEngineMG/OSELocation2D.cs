@@ -81,6 +81,12 @@ namespace ObjectSongEngineMG
             _yloc = Convert.ToInt32(location.Y);
         }
 
+        public void Copy(OSELocation2D target)
+        {
+            _xloc = target.X;
+            _yloc = target.Y;
+        }
+
         ///Deprecated
         ////public void Update(MouseState mouseState)
         ////{

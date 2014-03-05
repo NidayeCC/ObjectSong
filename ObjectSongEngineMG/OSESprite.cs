@@ -9,14 +9,14 @@ namespace ObjectSongEngineMG
     {
         private Guid _id;
         private OSESize2D _size;
-        private OSELocation2D _location;
         private Boolean _visible;
         private OSEHitBox _hitbox;
         private OSESpriteOrientation _orientation;
         private OSELocation2D _origin;
         
         protected Texture2D Texture;
-
+        protected OSELocation2D _location;
+        protected OSELocation2D _oldlocation;
 
 
         public Guid ID
@@ -76,8 +76,17 @@ namespace ObjectSongEngineMG
             set
             {
                 _location = value;
-                if(_hitbox != null)
+                if (_hitbox != null)
                     _hitbox.Location = value;
+            }
+        }
+
+
+        public OSELocation2D OldLocation
+        {
+            get
+            {
+                return _oldlocation;
             }
         }
 
@@ -116,7 +125,8 @@ namespace ObjectSongEngineMG
         {
             _id = Guid.NewGuid();
             _size = new OSESize2D(size);
-            _location = new OSELocation2D(location);       
+            _location = new OSELocation2D(location);
+            _oldlocation = new OSELocation2D(_location);
             _visible = true;
             _orientation = OSESpriteOrientation.Right;
             _origin = new OSELocation2D(0,0);
@@ -185,7 +195,7 @@ namespace ObjectSongEngineMG
         // Set Hitbox.Enabled to TRUE to use this method.
         public bool CheckForHit(OSESprite target)
         {
-            if (_hitbox.Enabled)
+            if (_hitbox.Enabled && target.Hitbox.Enabled)
             {
                 return _hitbox.DetectHit(target.Hitbox);
             }

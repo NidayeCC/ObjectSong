@@ -25,12 +25,13 @@ namespace RatzinaMaze
         //ObjectSong Objects
         private OSEInput _input;
         private OSECursor _defaultcursor;
-        private OSEMenu _mapbuildmenu;
+        private OSEMenu _buildmenu;
         private OSEPlayObject _humanplayer;
         private OSELabel _scorelabel;
 
         //Experimental - To Be Removed
         private OSEPlayObject _wallsegment;
+        private OSEMap _map;
 
         // Game play mode
         private Int32 _mode;
@@ -80,16 +81,16 @@ namespace RatzinaMaze
             _defaultcursor.Hitbox.Visible = true;
 
             //Build a menu for the Play and Exit functions
-            _mapbuildmenu = new OSEMenu(_menufont);
-            _mapbuildmenu.Location = new OSELocation2D(10, 10);
-            _mapbuildmenu.AddItem("Play", "Play", 0);
-            _mapbuildmenu.AddItem("Exit", "Exit", 1);
+            _buildmenu = new OSEMenu(_menufont);
+            _buildmenu.Location = new OSELocation2D(10, 10);
+            _buildmenu.AddItem("Play", "Play", 0);
+            _buildmenu.AddItem("Exit", "Exit", 1);
             // Create hitbox outlines on all menu items for collision detection with cursor
-            _mapbuildmenu.CreateHitBoxes(GraphicsDevice);
-            _mapbuildmenu.HitBoxesVisible = true;
+            _buildmenu.CreateHitBoxes(GraphicsDevice);
+            _buildmenu.HitBoxesVisible = true;
 
             //Build the human player
-            _humanplayer = new OSEPlayObject(new OSESize2D(64, 64), new OSELocation2D(32, 32));
+            _humanplayer = new OSEPlayObject(new OSESize2D(64, 64), new OSELocation2D(32, 48));
             _humanplayer.LoadTexture(GraphicsDevice, Content, "rat64x64");
             _humanplayer.Attributes.Add("walkspeed", "5");
             _humanplayer.CreateHitBox(GraphicsDevice);
@@ -100,10 +101,15 @@ namespace RatzinaMaze
             _scorelabel.Location = new OSELocation2D(400, 10);
 
             //Experimental - To Be Removed
-            _wallsegment = new OSEPlayObject(new OSESize2D(64, 16), new OSELocation2D(0, 0));
+            _wallsegment = new OSEPlayObject(new OSESize2D(128, 16), new OSELocation2D(0, 0));
             _wallsegment.LoadTexture(GraphicsDevice, Content, "walltile16x16");
             _wallsegment.CreateHitBox(GraphicsDevice);
             _wallsegment.Hitbox.Visible = true;
+            _wallsegment.IsObstacle = true;
+
+            // Level Map
+            _map = new OSEMap();
+            _map.Items.Add(_wallsegment);
 
         }
 
@@ -165,7 +171,7 @@ namespace RatzinaMaze
 
             if (_input.NewKeyState.Contains(Keys.Right))
             {
-                _humanplayer.Location.X += playerspeed;
+                _humanplayer.Location.X += playerspeed;             
                 _humanplayer.Orientation = OSESpriteOrientation.Right;
             }
             else
@@ -188,6 +194,7 @@ namespace RatzinaMaze
             }
 
             // You must call update to update sprite information
+            _humanplayer.CheckForHit(_map);
             _humanplayer.Update();
         }
 
@@ -197,15 +204,15 @@ namespace RatzinaMaze
             // Update the cursor location from the mouse position
             _defaultcursor.Location = new OSELocation2D(_input.NewMouseState);
 
-            _mapbuildmenu.Update(_defaultcursor);
+            _buildmenu.Update(_defaultcursor);
 
-            if (_mapbuildmenu.SelectedItem != null && _input.NewMouseState.LeftButton == ButtonState.Pressed)
+            if (_buildmenu.SelectedItem != null && _input.NewMouseState.LeftButton == ButtonState.Pressed)
             {
-                if (_mapbuildmenu.SelectedItem.Action == "Exit")
+                if (_buildmenu.SelectedItem.Action == "Exit")
                 {
                     Exit();
                 }
-                if (_mapbuildmenu.SelectedItem.Action == "Play")
+                if (_buildmenu.SelectedItem.Action == "Play")
                 {
                     _mode = 0;
                 }
@@ -223,22 +230,21 @@ namespace RatzinaMaze
         {
             GraphicsDevice.Clear(Color.SandyBrown);
 
-
-
             // Draw the Run Time
             if (_mode == 0)
             {
-                _wallsegment.Draw(_spriteBatch);
+                _map.Draw(_spriteBatch);
                 _humanplayer.Draw(_spriteBatch);
                 _scorelabel.Draw(_spriteBatch);
             }
-
+ 
+            else
 
             // Draw the Map Editor
             if (_mode == 1)
             {
                 // Draw the menu
-                _mapbuildmenu.Draw(_spriteBatch);
+                _buildmenu.Draw(_spriteBatch);
 
                 // Draw the cursor last, so that it is on top
                 _defaultcursor.Draw(_spriteBatch);
