@@ -137,6 +137,8 @@ namespace ObjectSongEngineMG
             var finalx = _location.X + _offset.X - _origin.X;
             var finaly = _location.Y + _offset.Y - _origin.Y;
 
+            spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
+
             // Draw top line
             spriteBatch.Draw(_pixeltex, new Rectangle(finalx, finaly, _size.Width, 1), _pixelcolor);
 
@@ -148,6 +150,8 @@ namespace ObjectSongEngineMG
 
             // Draw bottom line
             spriteBatch.Draw(_pixeltex, new Rectangle(finalx, finaly + _size.Height - 1, _size.Width, 1), _pixelcolor);
+
+            spriteBatch.End();
         }
 
 

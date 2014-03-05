@@ -75,9 +75,15 @@ namespace ObjectSongEngineMG
         {
             if (Visible)
             {
+                spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
+
                 spriteBatch.DrawString(_font, Text, Location.ToVector2, _textcolor);
+
+                spriteBatch.End();
+                
                 if(Hitbox != null)
                     Hitbox.Draw(spriteBatch);
+                
             }
         }
     }

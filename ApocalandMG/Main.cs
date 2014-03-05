@@ -245,20 +245,20 @@ namespace ApocalandMG
             // Draw the Run Time
             if (_mode == 0)
             {
-                _spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
+                //_spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
 
                 _pile.Draw(_spriteBatch);
                 _humanplayer.Draw(_spriteBatch);
                 _scorelabel.Draw(_spriteBatch);
 
-                _spriteBatch.End();
+                //_spriteBatch.End();
             }
 
 
             // Draw the Map Editor
             if (_mode == 1)
             {
-                _spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
+                //_spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
                 
                 // Draw the menu
                 _mapbuildmenu.Draw(_spriteBatch);
@@ -266,7 +266,7 @@ namespace ApocalandMG
                 // Draw the cursor last, so that it is on top
                 _defaultcursor.Draw(_spriteBatch);
 
-                _spriteBatch.End();
+                //_spriteBatch.End();
             }
 
 

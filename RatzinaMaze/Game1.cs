@@ -29,6 +29,9 @@ namespace RatzinaMaze
         private OSEPlayObject _humanplayer;
         private OSELabel _scorelabel;
 
+        //Experimental - To Be Removed
+        private OSEPlayObject _wallsegment;
+
         // Game play mode
         private Int32 _mode;
 
@@ -95,6 +98,12 @@ namespace RatzinaMaze
 
             _scorelabel = new OSELabel("0", _menufont);
             _scorelabel.Location = new OSELocation2D(400, 10);
+
+            //Experimental - To Be Removed
+            _wallsegment = new OSEPlayObject(new OSESize2D(64, 16), new OSELocation2D(0, 0));
+            _wallsegment.LoadTexture(GraphicsDevice, Content, "walltile16x16");
+            _wallsegment.CreateHitBox(GraphicsDevice);
+            _wallsegment.Hitbox.Visible = true;
 
         }
 
@@ -219,27 +228,20 @@ namespace RatzinaMaze
             // Draw the Run Time
             if (_mode == 0)
             {
-                _spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
-
+                _wallsegment.Draw(_spriteBatch);
                 _humanplayer.Draw(_spriteBatch);
                 _scorelabel.Draw(_spriteBatch);
-
-                _spriteBatch.End();
             }
 
 
             // Draw the Map Editor
             if (_mode == 1)
             {
-                _spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
-
                 // Draw the menu
                 _mapbuildmenu.Draw(_spriteBatch);
 
                 // Draw the cursor last, so that it is on top
                 _defaultcursor.Draw(_spriteBatch);
-
-                _spriteBatch.End();
             }
 
             base.Draw(gameTime);

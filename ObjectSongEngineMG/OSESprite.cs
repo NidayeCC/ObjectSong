@@ -14,7 +14,9 @@ namespace ObjectSongEngineMG
         private OSEHitBox _hitbox;
         private OSESpriteOrientation _orientation;
         private OSELocation2D _origin;
+        
         protected Texture2D Texture;
+
 
 
         public Guid ID
@@ -121,9 +123,9 @@ namespace ObjectSongEngineMG
         }
 
 
+
         public void LoadTexture(GraphicsDevice device, ContentManager contentMgr, string filename)
         {
-            Texture = new Texture2D(device, Size.Width, Size.Height);
             Texture = contentMgr.Load<Texture2D>(filename);
         }
 
@@ -162,10 +164,17 @@ namespace ObjectSongEngineMG
                     break;
             }
 
-            spriteBatch.Draw(Texture, new Rectangle(_location.X, _location.Y, _size.Width, _size.Height),null,
-                new Color(255, 255, 255),
-                orientationvector, _origin.ToVector2, SpriteEffects.None, 0.0f);
-  
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearWrap,
+            DepthStencilState.Default, RasterizerState.CullNone);
+
+            //spriteBatch.Draw(Texture, new Rectangle(_location.X, _location.Y, _size.Width, _size.Height),null,
+            //    new Color(255, 255, 255),
+            //    orientationvector, _origin.ToVector2, SpriteEffects.None, 0.0f);
+
+            spriteBatch.Draw(Texture, _location.ToVector2, new Rectangle(0,0, _size.Width, _size.Height),
+                new Color(255, 255, 255), orientationvector, _origin.ToVector2, 1, SpriteEffects.None, 0);
+
+            spriteBatch.End();
 
             if (_hitbox != null)
                 _hitbox.Draw(spriteBatch);
