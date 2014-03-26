@@ -28,9 +28,7 @@ namespace RatzinaMaze
         private OSEMenu _buildmenu;
         private OSEPlayObject _humanplayer;
         private OSELabel _scorelabel;
-
-        //Experimental - To Be Removed
-        private OSEPlayObject _wallsegment;
+   
         private OSEMap _map;
 
         // Game play mode
@@ -96,20 +94,14 @@ namespace RatzinaMaze
             _humanplayer.CreateHitBox(GraphicsDevice);
             _humanplayer.Hitbox.Visible = true;
             _humanplayer.Origin = new OSELocation2D(32, 32);
+            _humanplayer.IsObstacle = true;
 
             _scorelabel = new OSELabel("0", _menufont);
             _scorelabel.Location = new OSELocation2D(400, 10);
 
-            //Experimental - To Be Removed
-            _wallsegment = new OSEPlayObject(new OSESize2D(128, 16), new OSELocation2D(0, 0));
-            _wallsegment.LoadTexture(GraphicsDevice, Content, "walltile16x16");
-            _wallsegment.CreateHitBox(GraphicsDevice);
-            _wallsegment.Hitbox.Visible = true;
-            _wallsegment.IsObstacle = true;
-
             // Level Map
-            _map = new OSEMap();
-            _map.Items.Add(_wallsegment);
+            _map = new OSEMap(GraphicsDevice, Content);
+            _map.LoadFromFile("Content/Maze1.xml");
 
         }
 

@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Map>
+    <WallSegment XLocation="0" YLocation="0" Width="128" Height="16" TextureName="walltile16x16" IsObstacle="true" ShowHitBox="true"></WallSegment>
+    <WallSegment XLocation="0" YLocation="97" Width="128" Height="16" TextureName="walltile16x16" IsObstacle="true" ShowHitBox="true"></WallSegment>
+</Map>

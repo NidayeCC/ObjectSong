@@ -120,6 +120,18 @@ namespace ObjectSongEngineMG
             }
         }
 
+        // Note that if you use this constructor your object is invisible
+        public OSESprite()
+        {
+            _id = Guid.NewGuid();
+            _size = new OSESize2D(1,1);
+            _location = new OSELocation2D(0,0);
+            _oldlocation = new OSELocation2D(_location);
+            _visible = false;
+            _orientation = OSESpriteOrientation.Right;
+            _origin = new OSELocation2D(0, 0);
+        }
+
 
         public OSESprite(OSESize2D size, OSELocation2D location)
         {

@@ -32,25 +32,39 @@ namespace ObjectSongEngineMG
             }
         }
 
-        
+
+        public OSEPlayObject()
+            : base()
+        {
+            _attributes = new OSEAttributeList();
+            IsObstacle = false;
+        }
+
+
         public OSEPlayObject(OSESize2D size, OSELocation2D location) :base(size, location)
         {
             _attributes = new OSEAttributeList();
+            IsObstacle = false;
         }
 
 
         public bool CheckForHit(OSEPlayObject target)
         {
-            if (base.CheckForHit(target as OSESprite))
+            if (this.IsObstacle && target.IsObstacle)
             {
-                _location.Copy(_oldlocation);
-                return true;
+                if (base.CheckForHit(target as OSESprite))
+                {
+                    _location.Copy(_oldlocation);
+                    return true;
+                }
+                else
+                {
+                    _oldlocation.Copy(_location);
+                    return false;
+                }
             }
-            else
-            {
-                _oldlocation.Copy(_location);
-                return false;
-            }
+            _oldlocation.Copy(_location);
+            return false;
         }
 
 
@@ -58,19 +72,24 @@ namespace ObjectSongEngineMG
         {
             foreach (var item in map.Items)
             {
-                if (base.CheckForHit(item as OSESprite))
+                if (this.IsObstacle && item.IsObstacle)
                 {
-                    if (item.IsObstacle)
+                    if (base.CheckForHit(item as OSESprite))
                     {
-                        _location.Copy(_oldlocation);
+                       _location.Copy(_oldlocation);
+                        return true;
                     }
-                    return true;
+                    else
+                    {
+
+                    }
                 }
                 else
                 {
-                    _oldlocation.Copy(_location);
+                    
                 }
             }
+            _oldlocation.Copy(_location);
             return false;
         }
 
